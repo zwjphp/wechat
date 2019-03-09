@@ -8,4 +8,6 @@ require './app.conf.php';
 $wechat = new WeChat(APPID, APPSECRET, TOKEN);
 
 //第一次验证
-$wechat->firstValid();
+//$wechat->firstValid();
+
+$wechat->responseMSG();
