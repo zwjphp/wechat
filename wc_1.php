@@ -16,4 +16,5 @@ $wechat = new WeChat(APPID, APPSECRET);
 //$wechat->getQRCodeTicket(123,1);
 //$wechat->getQRCodeTicket('123',1);
 
-$wechat->getQRCode('123','./1234.jpg',$wechat::QRCODE_TYPE_TEMP);
+//$wechat->getQRCode('123','./1234.jpg',$wechat::QRCODE_TYPE_TEMP);
+$wechat->getQRCode('123','',$wechat::QRCODE_TYPE_TEMP);
