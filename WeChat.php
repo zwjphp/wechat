@@ -24,6 +24,44 @@ class WeChat
         $this->_token = $token;
     }
 
+    public function responseMSG() {
+        $xml_str = $GLOBALS['HTTP_RAW_POST_DATA'];
+
+        if (empty($xml_str)) {
+            die('');
+        }
+        // 解析该xml字符串，利用simplexml
+        //禁止xml实体解析，防止xml注入
+        libxml_disable_entity_loader(true);
+        // 从字符串获取simpleXML对象
+        $request_xml = simplexml_load_string($xml_str, 'SimpleXMLElement',LIBXML_NOCDATA);
+
+        // 判断该消息的类型通过元素：MsgType
+        switch ($request_xml->MsgType) {
+            case 'event';
+                $event = $request_xml->Event;
+                if ('subscribe' == $event) {
+                    $this->_doSubScribe($request_xml);
+                }
+                break;
+            default:
+                # code...
+                break;
+        }
+    }
+
+    /**
+     *
+     * @param $request_xml
+     */
+    private function _doSubscribe($request_xml){
+        // 利用消息发送，完成向关注用户打招呼功能
+        $text = '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content></xml>';
+        $content = '感谢你关注，会向你发送优惠信息，请查收';
+        $response = sprintf($text, $request_xml->FromUserName,$request_xml->ToUserName,time(),$content);
+        die($response);
+    }
+
     /**
      * 用于第一次验证URL合法性
      */
