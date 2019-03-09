@@ -56,7 +56,9 @@ class WeChat
      */
     private function _doSubscribe($request_xml){
         // 利用消息发送，完成向关注用户打招呼功能
-        $text = '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content></xml>';
+//        $text = '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content></xml>';
+        $text = '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content></xml>';//文本回复XML模板
+
         $content = '感谢你关注，会向你发送优惠信息，请查收';
         $response = sprintf($text, $request_xml->FromUserName,$request_xml->ToUserName,time(),$content);
         die($response);
