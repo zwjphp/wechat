@@ -11,15 +11,49 @@ class WeChat
     private $_appid;
     private $_appsecret;
     private $life_time = 7200;
+    private $_token; // 公众平台请求开发者时需要标记
 
     const QRCODE_TYPE_TEMP       = 0;
     const QRCODE_TYPE_LIMIT      = 1;
     const QRCODE_TYPE_LIMIT_STR  = 2;
 
-    public function __construct($id, $secret)
+    public function __construct($id, $secret, $token)
     {
         $this->_appid = $id;
         $this->_appsecret = $secret;
+        $this->_token = $token;
+    }
+
+    /**
+     * 用于第一次验证URL合法性
+     */
+    public function firstValid() {
+        // 验证签名的合法性
+        if ($this->_checkSignature()) {
+            // 签名合法， 告知微信公众平台服务器
+            echo $_GET['echostr'];
+        }
+    }
+
+    /**
+     * 验证签名
+     * @return bool
+     */
+    private function _checkSignature() {
+        $signature  = $_GET["signature"];
+        $timestamp  = $_GET["timestamp"];
+        $nonce      = $_GET["nonce"];
+
+        $tmp_arr  = array($this->_token, $timestamp, $nonce);
+        sort($tmp_arr, SORT_STRING);
+        $tmp_str  = implode( $tmp_arr );
+        $tmp_str  = sha1( $tmp_str );
+
+        if ($signature == $tmp_str) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
