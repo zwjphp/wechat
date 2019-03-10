@@ -79,6 +79,12 @@ class WeChat
         die($response);
     }
 
+    private function _doImage($request_xml){
+        $content = '你所上传的图片的Media_ID'.$request_xml->MediaId;
+        $this->_msgText($request_xml->FromUserName, $request_xml->ToUserName, $content);
+    }
+
+
     /**
      * 用于处理文本消息的方法
      */
