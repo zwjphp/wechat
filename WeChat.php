@@ -76,11 +76,11 @@ class WeChat
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->getAccessToken();
         $data = $menu;
         $result = $this->_requestPost($url, $data);
-        var_dump($result);
-        if ($result->errcode == 0) {
+        $result_obj = json_decode($result);
+        if ($result_obj->errcode == 0) {
             return true;
         } else {
-            echo $result->errmsg,'<br>';
+            echo $result_obj->errmsg,'<br>';
             return false;
         }
     }
