@@ -73,9 +73,10 @@ class WeChat
 
 
     public function menuSet($menu){
-        $url = ' https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->getAccessToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->getAccessToken();
         $data = $menu;
         $result = $this->_requestPost($url, $data);
+        var_dump($result);
         if ($result->errcode == 0) {
             return true;
         } else {
