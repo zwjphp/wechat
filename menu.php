@@ -51,14 +51,34 @@ $menu = '{
                     "name": "微信相册发图", 
                     "key": "pic_weixin", 
                     "sub_button": [ ]
+                }, 
+                {
+                    "name": "发送位置", 
+                    "type": "location_select", 
+                    "key": "location_select"
                 }
             ]
-        }, 
+        },
         {
-            "name": "发送位置", 
-            "type": "location_select", 
-            "key": "location_select"
-        }
+            "name": "快捷操作",
+            "sub_button" : [
+            	{
+            		"name": "地理位置",
+            		"type": "location_select",
+            		"key": "location_select"
+        		},
+        		{
+            		"name": "普通点击",
+            		"type": "click",
+            		"key": "click"
+        		},
+        		{
+            		"name": "查看URL",
+            		"type": "view",
+            		"url" : "http://www.soso.com/"
+        		},
+            ]
+        },
     ]
 }';
 
