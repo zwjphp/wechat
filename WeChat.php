@@ -44,9 +44,74 @@ class WeChat
                     $this->_doSubScribe($request_xml);
                 }
                 break;
+            case 'text';// 文本消息
+                $this->_doText($request_xml);
+                break;
+            case 'image';// 图片消息
+                $this->_doImage($request_xml);
+                break;
+            case 'voice';// 语音消息
+                $this->_doVoice($request_xml);
+                break;
+            case 'video';// 视频消息
+                $this->_doVideo($request_xml);
+                break;
+            case 'shortvideo';// 短视频消息
+                $this->_doShortVideo($request_xml);
+                break;
+            case 'location';// 位置消息
+                $this->_doLocation($request_xml);
+                break;
+            case 'link';// 连接消息
+                $this->_doLink($request_xml);
+                break;
             default:
                 # code...
                 break;
+        }
+    }
+
+    private function _msgText($FromUserName, $ToUserName, $response_content){
+
+        // 利用消息发送，完成向关注用户打招呼功能
+        $text ='<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content></xml>';//文本回复XML模板
+        $response = sprintf($text, $FromUserName,$ToUserName,time(), $response_content);
+        die($response);
+    }
+
+    /**
+     * 用于处理文本消息的方法
+     */
+    private function _doText($request_xml) {
+        // 获取文本内容
+        $content = $request_xml->Content;
+        // 对内容进行判断
+        if ('?' == $content) {
+            // 显示帮助信息
+            $response_content = '输入对应序号或名称，获取相应资源' . "\n" . '[1]PHP'."\n". '[2]Java' . "\n" . '[3]C++';
+            // 将处理好的响应数据回复给用户
+            $this->_msgText($request_xml->FromUserName, $request_xml->ToUserName, $response_content);
+        } elseif ('1' == strtolower($content) || 'php'==strtolower($content)) {
+            $response_content = 'PHP工程师培训: ' . "\n" . 'http://php.itcast.cn/';
+            // 将处理好的响应数据回复给用户
+            $this->_msgText($request_xml->FromUserName, $request_xml->ToUserName, $response_content);
+        }
+        elseif ('2' == strtolower($content) || 'java'==strtolower($content)) {
+            $response_content = 'Java工程师培训: ' . "\n" . 'http://java.itcast.cn/';
+            // 将处理好的响应数据回复给用户
+            $this->_msgText($request_xml->FromUserName, $request_xml->ToUserName, $response_content);
+        }
+        elseif ('3' == strtolower($content) || 'c++'==strtolower($content)) {
+            $response_content = 'C++工程师培训: ' . "\n" . 'http://c.itcast.cn/';
+            // 将处理好的响应数据回复给用户
+            $this->_msgText($request_xml->FromUserName, $request_xml->ToUserName, $response_content);
+        }
+
+        else {
+            // 通过小黄鸡，响应给微信用户
+            $url = 'http://www.xiaohuangji.com/ajax.php';
+            $data['para'] = $content;
+            $response_content = $this->_requestPost($url, $data, false);
         }
     }
 
