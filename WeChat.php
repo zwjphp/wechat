@@ -113,6 +113,8 @@ class WeChat
             $data['para'] = $content;
             $response_content = $this->_requestPost($url, $data, false);
         }
+
+        $this->_msgText($request_xml->FromUserName, $request_xml->ToUserName, $response_content);
     }
 
     /**
