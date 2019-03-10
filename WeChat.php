@@ -71,6 +71,19 @@ class WeChat
         }
     }
 
+
+    public function menuSet($menu){
+        $url = ' https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->_getAccessToken();
+        $data = $menu;
+        $result = $this->_requestPost($url, $data);
+        if ($result->errcode == 0) {
+            return true;
+        } else {
+            echo $result->errmsg,'<br>';
+            return false;
+        }
+    }
+
     private function _msgText($FromUserName, $ToUserName, $response_content){
 
         // 利用消息发送，完成向关注用户打招呼功能
@@ -111,6 +124,14 @@ class WeChat
             $response_content = 'C++工程师培训: ' . "\n" . 'http://c.itcast.cn/';
             // 将处理好的响应数据回复给用户
             $this->_msgText($request_xml->FromUserName, $request_xml->ToUserName, $response_content);
+        }elseif ('图片' == $content) {
+            $id_list = array(
+                'eLrmGKbhf5kS86A9bqzkLS8-45sWvqBwUv4Q7XDd-oAds44Ad9hxq9h-ShmRQLyJ',
+                '0Fnq-gYU8zDugqxjPNywkhW5KSHXT6DdF-NGovaPfKry8grmheEVdEkdeY8qjZ--');
+            $rand_index = mt_rand(0, count($id_list)-1);
+            // 具体那张图片，应该由业务逻辑决定
+
+            $this->_msgImage($request_xml->FromUserName, $request_xml->ToUserName, $id_list[$rand_index], true);
         }
 
         else {
