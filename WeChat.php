@@ -343,4 +343,46 @@ class WeChat
         return $response;
     }
 
+
+
+    public function getBaseInfo(){
+        //1.获取到code
+        $redirect_uri=urlencode("http://aaa.http://aaa.machifo.cn/wc_1/getUserOpenId");//这里的地址需要http://
+        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->_appid."&redirect_uri=".$redirect_uri."&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+        header('location:'.$url);
+    }
+
+    public function getUserOpenId(){
+        //2.获取到网页授权的access_token
+        $code = $_GET['code'];
+        $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$this->_appid."&secret=".$this->_appsecret."&code=".$code."&grant_type=authorization_code ";
+        //3.拉取用户的openid
+        $res = $this->http_curl($url);
+        echo $res;//打印即可看到用户的openid
+        $data = json_decode($res,true);
+        if(!empty($data['access_token']) && !empty($data['openid'])){
+            $url = "https://api.weixin.qq.com/sns/userinfo?access_token=".$data['access_token']."&openid=".$data['openid']."&lang=zh_CN";
+            $userInfo = $this->http_curl($url);
+            echo $userInfo;
+        }
+    }
+
+    public function http_curl($url){
+        $curl = curl_init();
+        //设置抓取的url
+        curl_setopt($curl, CURLOPT_URL, $url);
+        //设置头文件的信息作为数据流输出
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        //设置获取的信息以文件流的形式返回，而不是直接输出。
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        //执行命令
+        $data = curl_exec($curl);
+        //关闭URL请求
+        curl_close($curl);
+        //显示获得的数据
+        return $data;
+    }
+
+
+
 }
