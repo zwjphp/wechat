@@ -347,7 +347,7 @@ class WeChat
 
     public function getBaseInfo(){
         //1.获取到code
-        $redirect_uri=urlencode("http://aaa.http://aaa.machifo.cn/wc_1/getUserOpenId");//这里的地址需要http://
+        $redirect_uri=urlencode("http://aaa.machifo.cn/wc_1/getUserOpenId");//这里的地址需要http://
         $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->_appid."&redirect_uri=".$redirect_uri."&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
         header('location:'.$url);
     }
