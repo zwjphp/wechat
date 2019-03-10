@@ -51,11 +51,6 @@ $menu = '{
                     "name": "微信相册发图", 
                     "key": "pic_weixin", 
                     "sub_button": [ ]
-                }, 
-                {
-                    "name": "发送位置", 
-                    "type": "location_select", 
-                    "key": "location_select"
                 }
             ]
         },
